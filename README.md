@@ -5,9 +5,10 @@
 
 <h1 align="center">🛍️ Trez - E-commerce Store</h1>
 
-<p align="center">
-  <a href="https://trez-ecommerce.vercel.app/"><h2>🚀 Live Website →<h2></a>
-</p>
+# 🚀 Live Demo
+
+Check out the deployed website:  
+👉 **[Trez E-commerce Store](https://trez-ecommerce.vercel.app/)**
 
 ---
 
