@@ -53,7 +53,7 @@ Looks great on desktops, tablets, and mobile devices.
 ## 🛠️ Tech Stack
 
 🔹 **Frontend:** React.js, HTML5, Typescript, Javascript   
-🔹 **Styling:** TailwindCSS / Custom CSS  
+🔹 **Styling:** TailwindCSS & Custom CSS  
 🔹 **Payment Gateway:** Razorpay 
 
 ---
