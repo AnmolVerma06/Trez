@@ -8,7 +8,7 @@
 # 🚀 Live Demo
 
 Check out the deployed website:  
-👉 **[Trez E-commerce Store](https://trez-ecommerce.vercel.app/)**
+👉 *[Trez E-commerce Store](https://trez-ecommerce.vercel.app/)*
 
 ---
 
