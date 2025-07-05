@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
 
-import shape1 from '../../assets/img/home-v2/banner-shape-01.png'
-import shape2 from '../../assets/img/home-v2/banner-shape-02.png'
-import shape3 from '../../assets/img/home-v2/banner-shape-03.png'
 import hero from '../../assets/img/home-v2/banner-shape-04.png'
-import chair from '../../assets/img/svg/chair.svg'
 import comments from '../../assets/img/svg/comment-2.svg'
 import arrival1 from '../../assets/img/home-v2/arrival-01.png'
 import arrival2 from '../../assets/img/home-v2/arrival-02.png'
-import bed from '../../assets/img/svg/bed.svg'
 import like from '../../assets/img/svg/like.svg'
 import tshirt from '../../assets/img/svg/tshirt.svg'
 import dress from '../../assets/img/svg/dress.svg'
@@ -21,12 +16,8 @@ import PartnerOne from "../../components/partner-one";
 import FooterTwo from "../../components/footer/footer-two";
 import ScrollToTop from "../../components/scroll-to-top";
 
-
 import { FaArrowDown } from "react-icons/fa";
 import { productList, productSlider } from "../../data/data";
-import { LuEye, LuHeart } from "react-icons/lu";
-import { RiShoppingBag2Line } from "react-icons/ri";
-import { GoStarFill } from "react-icons/go";
 import OwlCarousel from 'react-owl-carousel';
 import { useEffect } from "react";
 import Aos from "aos";
@@ -134,7 +125,7 @@ export default function IndexTwo() {
                 <div className="max-w-[547px] mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up" data-aos-delay="100">
                     <img src={dress} alt="dress" className="mx-auto w-14 sm:w-[70px]"/>
                     <h2 className="mt-[15px] leading-none">New Arrival</h2>
-                    <p className="mt-[10px] md:mt-[15px]">Step into the season’s latest with our New Arrival collection, where fresh designs meet the hottest trends.</p>
+                    <p className="mt-[10px] md:mt-[15px]">Step into the season's latest with our New Arrival collection, where fresh designs meet the hottest trends.</p>
                 </div>
                 <div className="grid lg:grid-cols-2 gap-[30px]" data-aos="fade-up" data-aos-delay="300">
                     <div className="grid gap-[30px]">

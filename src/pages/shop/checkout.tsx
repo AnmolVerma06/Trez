@@ -7,10 +7,9 @@ import cart2 from '../../assets/img/gallery/cart/cart-02.jpg'
 import cart3 from '../../assets/img/gallery/cart/cart-03.jpg'
 
 import { useEffect, useState } from "react";
-import FooterOne from "../../components/footer/footer-one";
+import FooterTwo from "../../components/footer/footer-two";
 import ScrollToTop from "../../components/scroll-to-top";
 import Aos from "aos";
-import FooterTwo from "../../components/footer/footer-two";
 
 export default function Checkout() {
 

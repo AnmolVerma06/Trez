@@ -2,7 +2,7 @@ import { FaFacebookF, FaHeart, FaInstagram, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from '../../assets/img/svg/logo.svg'
 import logoLight from '../../assets/img/svg/logo-light.svg'
-import { footerLink1, footerLink2, footerLink3, footerLink4 } from "../../data/nav-data";
+import { footerLink1, footerLink3, footerLink4 } from "../../data/nav-data";
 import { FiLinkedin } from "react-icons/fi";
 
 export default function FooterTwo() {

@@ -6,8 +6,6 @@ import { LuSearch,LuX} from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
 import {RiShoppingBag4Line} from 'react-icons/ri'
 import Switcher from '../switcher';
-import IncreDre from '../incre-dre';
-import { blogTag } from '../../data/blog';
 import { productList } from '../../data/data';
 
 interface NavMenuProps {

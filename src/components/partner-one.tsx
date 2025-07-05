@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { partnerData } from '../data/data'
 import OwlCarousel from 'react-owl-carousel';
 

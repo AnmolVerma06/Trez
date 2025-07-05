@@ -17,8 +17,6 @@ import shop15 from '../assets/img/gallery/shop-01/shop-15.png'
 import shop16 from '../assets/img/gallery/shop-01/shop-16.png'
 import shop17 from '../assets/img/gallery/shop-01/shop-17.png'
 import shop18 from '../assets/img/gallery/shop-01/shop-18.png'
-import shop19 from '../assets/img/gallery/shop-01/shop-19.png'
-import shop20 from '../assets/img/gallery/shop-01/shop-20.png'
 
 import blog1 from '../assets/img/shortcode/blog/blog-22.jpg'
 import blog2 from '../assets/img/shortcode/blog/blog-23.jpg'

@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 import NavbarOne from "../../components/navbar/navbar-one";
-import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
 import { useCartWishlist } from "../../context/CartWishlistContext";
@@ -16,6 +15,16 @@ import { GoStarFill } from "react-icons/go";
 import Aos from "aos";
 import FooterTwo from "../../components/footer/footer-two";
 
+interface WishlistItem {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+    type: string;
+    brand: string;
+}
+
 export default function Wishlist() {
     const { state, removeFromWishlist, addToCart, isInCart } = useCartWishlist();
     const { wishlist } = state;
@@ -24,7 +33,7 @@ export default function Wishlist() {
         Aos.init()
     }, [])
 
-    const handleAddToCart = (item: any) => {
+    const handleAddToCart = (item: WishlistItem) => {
         addToCart({
             id: item.id,
             name: item.name,
@@ -68,7 +77,7 @@ export default function Wishlist() {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 lg::gap-8">
-                                {wishlist.map((item, index) => {
+                                {wishlist.map((item: WishlistItem, index: number) => {
                                     return (
                                         <div className="group" key={index}>
                                             <div className="relative overflow-hidden group aspect-square w-full max-w-[300px] z-[5] p-0 m-0

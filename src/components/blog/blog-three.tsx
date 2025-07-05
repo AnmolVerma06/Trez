@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
+import { blogOneData } from "../../data/blog";
+
+interface BlogItem {
+  id: number;
+  image: string;
+  date: string;
+  tag: string;
+  title: string;
+  desc: string;
+}
 
 export default function BlogThree() {
   return (
     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-7 md:gap-9">
-        {blogData.map((item,index)=>{
+        {blogOneData.map((item: BlogItem, index: number) => {
             return(
                 <div className="group sm:flex items-center" key={index}>
                     <Link to="#" className="sm:w-1/2 overflow-hidden block">

@@ -4,7 +4,7 @@ import bg from '../../assets/img/bg/footer.jpg'
 
 import logoLight from '../../assets/img/svg/logo-light.svg'
 
-import { footerLink1, footerLink2, footerLink3, footerLink4 } from '../../data/nav-data'
+import { footerLink1, footerLink3, footerLink4 } from '../../data/nav-data'
 import { FaFacebookF, FaHeart, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 
 export default function FooterOne() {

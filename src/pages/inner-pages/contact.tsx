@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import NavbarOne from "../../components/navbar/navbar-one";
-import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'

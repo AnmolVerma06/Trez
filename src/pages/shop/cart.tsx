@@ -2,14 +2,12 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 import NavbarOne from "../../components/navbar/navbar-one";
-import IncreDre from "../../components/incre-dre";
-import FooterOne from "../../components/footer/footer-one";
+import FooterTwo from "../../components/footer/footer-two";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useCartWishlist } from "../../context/CartWishlistContext";
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import Aos from "aos";
-import FooterTwo from "../../components/footer/footer-two";
 
 export default function Cart() {
     const { state, removeFromCart, updateQuantity, getCartTotal } = useCartWishlist();
