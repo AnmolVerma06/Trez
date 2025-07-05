@@ -7,7 +7,7 @@
 
 ## 🚀 Live Demo
 
-<p style="font-size: 1.5em;">
+<p style="font-size: 2.5em;">
   👉 <a href="https://trez-ecommerce.vercel.app/"><strong>Trez E-commerce Store</strong></a>
 </p>
 
