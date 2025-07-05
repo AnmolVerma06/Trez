@@ -20,9 +20,9 @@ interface WishlistItem {
     name: string;
     price: number;
     image: string;
-    category: string;
-    type: string;
-    brand: string;
+    category?: string;
+    type?: string;
+    brand?: string;
 }
 
 export default function Wishlist() {

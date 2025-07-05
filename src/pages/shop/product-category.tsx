@@ -3,11 +3,10 @@ import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import { Link } from "react-router-dom";
 import { productList } from "../../data/data";
 import LayoutOne from "../../components/product/layout-one";
-import FooterOne from "../../components/footer/footer-one";
+import FooterTwo from "../../components/footer/footer-two";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useEffect } from "react";
 import Aos from "aos";
-import FooterTwo from "../../components/footer/footer-two";
 
 export default function ProductCategory() {
   useEffect(()=>{

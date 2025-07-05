@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-import cardImg from '../../assets/img/thumb/shop-card.jpg'
 
 import { productList } from '../../data/data'
 
