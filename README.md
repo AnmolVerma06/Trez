@@ -20,7 +20,6 @@
 - Advanced product listings
 - Fast and intuitive search
 - Cart and checkout management
-- Payment gateway integration
 - Fully responsive design
 
 ---
@@ -42,9 +41,6 @@ Add, remove, or update cart items effortlessly.
 ✅ **Smooth Checkout Flow**  
 Step-by-step checkout process with form validations.
 
-✅ **Secure Payment Gateway**  
-Integrated with Razorpay for safe transactions.
-
 ✅ **Responsive Design**  
 Looks great on desktops, tablets, and mobile devices.
 
@@ -54,7 +50,6 @@ Looks great on desktops, tablets, and mobile devices.
 
 🔹 **Frontend:** React.js, HTML5, Typescript, Javascript   
 🔹 **Styling:** TailwindCSS & Custom CSS  
-🔹 **Payment Gateway:** Razorpay 
 
 ---
 
@@ -99,12 +94,6 @@ npm start
 ```
 
 4️⃣ Open your browser and navigate to `http://localhost:3000`.
-
----
-
-## 💳 Payment Integration
-
-This project is integrated with **Razorpay** for secure payment processing. Customize with your own keys or switch providers as needed.
 
 ---
 
