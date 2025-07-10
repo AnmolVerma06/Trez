@@ -10,6 +10,8 @@ interface CartItem {
   category?: string;
   type?: string;
   brand?: string;
+  size?: string;
+  color?: string;
 }
 
 interface WishlistItem {
@@ -30,8 +32,8 @@ interface CartWishlistState {
 // Actions
 type CartAction = 
   | { type: 'ADD_TO_CART'; payload: CartItem }
-  | { type: 'REMOVE_FROM_CART'; payload: number }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
+  | { type: 'REMOVE_FROM_CART'; payload: { id: number; size?: string; color?: string } }
+  | { type: 'UPDATE_QUANTITY'; payload: { id: number; size?: string; color?: string; quantity: number } }
   | { type: 'CLEAR_CART' };
 
 type WishlistAction = 
@@ -51,12 +53,12 @@ const initialState: CartWishlistState = {
 const cartWishlistReducer = (state: CartWishlistState, action: CartWishlistAction): CartWishlistState => {
   switch (action.type) {
     case 'ADD_TO_CART':
-      const existingCartItem = state.cart.find(item => item.id === action.payload.id);
+      const existingCartItem = state.cart.find(item => isSameCartItem(item, action.payload));
       if (existingCartItem) {
         return {
           ...state,
           cart: state.cart.map(item =>
-            item.id === action.payload.id
+            isSameCartItem(item, action.payload)
               ? { ...item, quantity: item.quantity + 1 }
               : item
           )
@@ -68,17 +70,19 @@ const cartWishlistReducer = (state: CartWishlistState, action: CartWishlistActio
       };
 
     case 'REMOVE_FROM_CART':
+      // action.payload is now an object: { id, size, color }
       return {
         ...state,
-        cart: state.cart.filter(item => item.id !== action.payload)
+        cart: state.cart.filter(item => !isSameCartItem(item, action.payload as any))
       };
 
     case 'UPDATE_QUANTITY':
+      // action.payload is now an object: { id, size, color, quantity }
       return {
         ...state,
         cart: state.cart.map(item =>
-          item.id === action.payload.id
-            ? { ...item, quantity: Math.max(1, action.payload.quantity) }
+          isSameCartItem(item, action.payload as any)
+            ? { ...item, quantity: Math.max(1, (action.payload as any).quantity) }
             : item
         )
       };
@@ -116,17 +120,21 @@ const cartWishlistReducer = (state: CartWishlistState, action: CartWishlistActio
   }
 };
 
+// Helper to uniquely identify a cart item by id, size, and color
+const isSameCartItem = (a: CartItem, b: Partial<CartItem>) =>
+  a.id === b.id && a.size === b.size && a.color === b.color;
+
 // Context
 interface CartWishlistContextType {
   state: CartWishlistState;
   addToCart: (item: Omit<CartItem, 'quantity'>) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  removeFromCart: (id: number, size?: string, color?: string) => void;
+  updateQuantity: (id: number, quantity: number, size?: string, color?: string) => void;
   clearCart: () => void;
   addToWishlist: (item: WishlistItem) => void;
   removeFromWishlist: (id: number) => void;
   clearWishlist: () => void;
-  isInCart: (id: number) => boolean;
+  isInCart: (id: number, size?: string, color?: string) => boolean;
   isInWishlist: (id: number) => boolean;
   getCartTotal: () => number;
   getCartCount: () => number;
@@ -160,12 +168,12 @@ export const CartWishlistProvider: React.FC<{ children: React.ReactNode }> = ({ 
     dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity: 1 } });
   };
 
-  const removeFromCart = (id: number) => {
-    dispatch({ type: 'REMOVE_FROM_CART', payload: id });
+  const removeFromCart = (id: number, size?: string, color?: string) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: { id, size, color } });
   };
 
-  const updateQuantity = (id: number, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
+  const updateQuantity = (id: number, quantity: number, size?: string, color?: string) => {
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, size, color, quantity } });
   };
 
   const clearCart = () => {
@@ -184,8 +192,8 @@ export const CartWishlistProvider: React.FC<{ children: React.ReactNode }> = ({ 
     dispatch({ type: 'CLEAR_WISHLIST' });
   };
 
-  const isInCart = (id: number) => {
-    return state.cart.some((item: CartItem) => item.id === id);
+  const isInCart = (id: number, size?: string, color?: string) => {
+    return state.cart.some((item: CartItem) => item.id === id && item.size === size && item.color === color);
   };
 
   const isInWishlist = (id: number) => {

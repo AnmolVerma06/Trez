@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom';
 
 import AOS from 'aos';
@@ -10,16 +10,40 @@ import product4 from '../../assets/img/gallery/product-detls/product-04.jpg'
 
 import IncreDre from '../../components/incre-dre';
 import NavbarOne from '../../components/navbar/navbar-one';
-import FooterOne from '../../components/footer/footer-one';
+import FooterTwo from '../../components/footer/footer-two';
 import DetailTab from '../../components/product/detail-tab';
 import LayoutOne from '../../components/product/layout-one';
 import ScrollToTop from '../../components/scroll-to-top';
 
 import { productList, productTag } from '../../data/data';
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { useCartWishlist } from '../../context/CartWishlistContext';
 
 export default function ProductDetails() {
     const [activeImage, setActiveImage] = useState<number>(1)
+    const { state, addToCart } = useCartWishlist();
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [selectedColor, setSelectedColor] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
+    const toastTimeout = useRef<NodeJS.Timeout | null>(null);
+    const [timer, setTimer] = useState(7200); // 2 hours in seconds
+
+    useEffect(() => {
+      if (timer <= 0) return;
+      const interval = setInterval(() => {
+        setTimer((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }, [timer]);
+
+    function formatTimer(secs: number) {
+      const d = Math.floor(secs / 86400);
+      const h = Math.floor((secs % 86400) / 3600);
+      const m = Math.floor((secs % 3600) / 60);
+      const s = secs % 60;
+      return { d, h, m, s };
+    }
+    const { d, h, m, s } = formatTimer(timer);
 
     useEffect(()=>{
         AOS.init()
@@ -29,6 +53,8 @@ export default function ProductDetails() {
     const id:any = params.id
     
     const data = productList.find((item) => item.id === parseInt(id))
+    const cartItem = state.cart.find((item) => item.id === data?.id);
+    const quantity = cartItem ? cartItem.quantity : 0;
   return (
     <>
         <NavbarOne/>
@@ -50,26 +76,29 @@ export default function ProductDetails() {
                     <div className="w-full lg:w-[58%]">
                         <div className="relative product-dtls-wrapper">
                             <button className="absolute top-5 left-0 p-2 bg-[#E13939] text-lg leading-none text-white font-medium z-50">-10%</button>
+                            {/* Product image gallery */}
                             <div className="product-dtls-slider ">
-                                <div className={activeImage === 1 ? '' : 'hidden'}><img src={data?.image ? data?.image : product1} className='w-full' alt="product"/></div>
-                                <div className={activeImage === 2 ? '' : 'hidden'}><img src={product2} alt="product"/></div>
-                                <div className={activeImage === 3 ? '' : 'hidden'}><img src={product3} alt="product"/></div>
-                                <div className={activeImage === 4 ? '' : 'hidden'}><img src={product4} alt="product"/></div>
+                                {data?.images?.map((img, idx) => (
+                                    <div key={idx} className={activeImage === idx + 1 ? '' : 'hidden'}>
+                                        <img src={img} className='w-full' alt="product"/>
+                                    </div>
+                                ))}
                             </div>
                             <div className="product-dtls-nav">
-                                <div onClick={()=>setActiveImage(1)} className='mb-2'><img src={data?.image ? data?.image : product1} alt="product"/></div>
-                                <div onClick={()=>setActiveImage(2)} className='mb-2'><img src={product2} alt="product"/></div>
-                                <div onClick={()=>setActiveImage(3)} className='mb-2'><img src={product3} alt="product"/></div>
-                                <div onClick={()=>setActiveImage(4)}><img src={product4} alt="product"/></div>
+                                {data?.images?.map((img, idx) => (
+                                    <div key={idx} onClick={()=>setActiveImage(idx + 1)} className='mb-2'>
+                                        <img src={img} alt="product"/>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                     <div className="lg:max-w-[635px] w-full">
                         <div className="pb-4 sm:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
-                            <h2 className="font-semibold leading-none">{data?.name ? data?.name : 'Classic Relaxable Chair'}</h2>
+                            <h2 className="font-semibold leading-none">{data?.name}</h2>
                             <div className="flex gap-4 items-center mt-[15px]">
-                                <span className="text-lg sm:text-xl leading-none pb-[5px] text-title line-through pl-2 inline-block dark:text-white">$140.99</span>
-                                <span className="text-2xl sm:text-3xl text-primary leading-none block">$85.00</span>
+                                <span className="text-lg sm:text-xl leading-none pb-[5px] text-title line-through pl-2 inline-block dark:text-white">₹{(data?.price ? (data.price * 1.2).toFixed(2) : '0.00')}</span>
+                                <span className="text-2xl sm:text-3xl text-primary leading-none block">₹{data?.price ?? '0.00'}</span>
                             </div>
 
                             <div className="mt-5 md:mt-7 flex items-center gap-4 flex-wrap">
@@ -83,28 +112,28 @@ export default function ProductDetails() {
                                         <div className="countdown-clock flex gap-[10px] items-center">
                                             <div className="countdown-item flex">
                                                 <div className="ci-inner text-lg font-medium leading-none text-[#E13939]">
-                                                    <div className="clock-days ci-value"></div>
+                                                    <div className="clock-days ci-value">{d.toString().padStart(2, '0')}</div>
                                                 </div>
                                                 <p className="text-lg font-medium leading-none text-[#E13939]">D</p>
                                             </div>
                                             <p className="text-lg font-medium leading-none text-[#E13939]">:</p>
                                             <div className="countdown-item flex">
                                                 <div className="ci-inner text-lg font-medium leading-none text-[#E13939]">
-                                                    <div className="clock-hours ci-value"></div>
+                                                    <div className="clock-hours ci-value">{h.toString().padStart(2, '0')}</div>
                                                 </div>
                                                 <p className="text-lg font-medium leading-none text-[#E13939]">H</p>
                                             </div>
                                             <p className="text-lg font-medium leading-none text-[#E13939]">:</p>
                                             <div className="countdown-item flex">
                                                 <div className="ci-inner text-lg font-medium leading-none text-[#E13939]">
-                                                    <div className="clock-minutes ci-value"></div>
+                                                    <div className="clock-minutes ci-value">{m.toString().padStart(2, '0')}</div>
                                                 </div>
                                                 <p className="text-lg font-medium leading-none text-[#E13939]">M</p>
                                             </div>
                                             <p className="text-lg font-medium leading-none text-[#E13939]">:</p>
                                             <div className="countdown-item flex">
                                                 <div className="ci-inner text-lg font-medium leading-none text-[#E13939]">
-                                                    <div className="clock-seconds ci-value"></div>
+                                                    <div className="clock-seconds ci-value">{s.toString().padStart(2, '0')}</div>
                                                 </div>
                                                 <p className="text-lg font-medium leading-none text-[#E13939]">S</p>
                                             </div>
@@ -114,15 +143,39 @@ export default function ProductDetails() {
                             </div>
 
                             <p className="sm:text-lg mt-5 md:mt-7">
-                                Experience the epitome of relaxation with our Classic Relaxable Chair. Crafted with plush cushioning and ergonomic design, it offers unparalleled comfort for lounging or reading. Its timeless style seamlessly blends with any decor, while the sturdy construction ensures durability for years to come.
+                                {data?.description}
                             </p>
                         </div>
                         <div className="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up" data-aos-delay="200">
-                           <IncreDre/>
+                           <IncreDre quantity={quantity} />
                             <div className="flex gap-4 mt-4 sm:mt-6">
-                                <Link to="/cart" className="btn btn-solid" data-text="Add to Cart">
-                                    <span>Add to Cart</span>
-                                </Link>
+                                <button
+                                  className="btn btn-solid"
+                                  data-text="Add to Cart"
+                                  onClick={() => {
+                                    if (!selectedSize || !selectedColor) {
+                                      setShowToast(true);
+                                      if (toastTimeout.current) clearTimeout(toastTimeout.current);
+                                      toastTimeout.current = setTimeout(() => setShowToast(false), 2000);
+                                      return;
+                                    }
+                                    if (data) {
+                                      addToCart({
+                                        id: data.id,
+                                        name: data.name,
+                                        price: data.price,
+                                        image: data.image,
+                                        category: data.category,
+                                        type: data.type,
+                                        brand: data.brand,
+                                        size: selectedSize,
+                                        color: selectedColor,
+                                      });
+                                    }
+                                  }}
+                                >
+                                  <span>Add to Cart</span>
+                                </button>
                                 <Link to="#" className="btn btn-outline" data-text="Add to Wishlist">
                                     <span>Add to Wishlist</span>
                                 </Link>
@@ -130,58 +183,51 @@ export default function ProductDetails() {
                         </div>
                         <div className="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up" data-aos-delay="300">
                             <div className="flex gap-x-12 gap-y-3 flex-wrap">
-                                <h6 className="leading-none font-medium">SKU : CH_0015</h6>
-                                <h6 className="leading-none font-medium">Category : Chair</h6>
+                                <h6 className="leading-none font-medium">SKU : CH_00{data?.id}</h6>
+                                <h6 className="leading-none font-medium">Category : {data?.category}</h6>
                             </div>
                             <div className="flex gap-x-12 lg:gap-x-24 gap-y-3 flex-wrap mt-5 sm:mt-10">
                                 <div className="flex gap-[10px] items-center">
                                     <h6 className="leading-none font-medium">Size :</h6>
                                     <div className="flex gap-[10px]">
-                                        <label className="product-size">
-                                            <input className="appearance-none hidden" type="radio" name="size" checked/>
-                                            <span className="w-6 h-6 flex items-center justify-center pt-[2px] text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white duration-300">S</span>
-                                        </label>
-                                        <label className="product-size">
-                                            <input className="appearance-none hidden" type="radio" name="size" />
-                                            <span className="w-6 h-6 flex items-center justify-center pt-[2px] text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white duration-300">M</span>
-                                        </label>
-                                        <label className="product-size">
-                                            <input className="appearance-none hidden" type="radio" name="size"/>
-                                            <span className="w-6 h-6 flex items-center justify-center pt-[2px] text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white duration-300">L</span>
-                                        </label>
-                                        <label className="product-size">
-                                            <input className="appearance-none hidden" type="radio" name="size"/>
-                                            <span className="w-6 h-6 flex items-center justify-center pt-[2px] text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white duration-300">XL</span>
-                                        </label>
+                                        {data?.sizes?.map((size, idx) => (
+                                            <label className="product-size" htmlFor={`size-${size}`} key={size}>
+                                                <input id={`size-${size}`} className="appearance-none hidden" type="radio" name="size" title={`Size ${size}`} placeholder={size} checked={selectedSize === size} onChange={() => setSelectedSize(size)} />
+                                                <span className="w-6 h-6 flex items-center justify-center pt-[2px] text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white duration-300">{size}</span>
+                                            </label>
+                                        ))}
                                     </div>
                                 </div>
                                 <div className="flex gap-[10px] items-center">
                                     <h6 className="leading-none font-medium">Color :</h6>
                                     <div className="flex gap-[10px] items-center">
-                                        <label className="product-color">
-                                            <input className="appearance-none hidden" type="radio" name="color" />
-                                            <span className="border border-[#D68553] flex rounded-full border-opacity-0 duration-300 p-1">
-                                                <span className="w-4 h-4 rounded-full bg-[#D68553] flex"></span>
-                                            </span>
-                                        </label>
-                                        <label className="product-color">
-                                            <input className="appearance-none hidden" type="radio" name="color" checked/>
-                                            <span className="border border-[#61646E] flex rounded-full border-opacity-0 duration-300 p-1">
-                                                <span className="w-4 h-4 rounded-full bg-[#61646E] flex"></span>
-                                            </span>
-                                        </label>
-                                        <label className="product-color">
-                                            <input className="appearance-none hidden" type="radio" name="color"/>
-                                            <span className="border border-[#E9E3DC] flex rounded-full border-opacity-0 duration-300 p-1">
-                                                <span className="w-4 h-4 rounded-full bg-[#E9E3DC] flex"></span>
-                                            </span>
-                                        </label>
-                                        <label className="product-color">
-                                            <input className="appearance-none hidden" type="radio" name="color"/>
-                                            <span className="border border-[#9A9088] flex rounded-full border-opacity-0 duration-300 p-1">
-                                                <span className="w-4 h-4 rounded-full bg-[#9A9088] flex"></span>
-                                            </span>
-                                        </label>
+                                        {data?.colors?.map((color, idx) => (
+                                            <label className="product-color" htmlFor={`color-${idx}`} key={color} style={{cursor: 'pointer'}}>
+                                                <input
+                                                  id={`color-${idx}`}
+                                                  className="appearance-none hidden"
+                                                  type="radio"
+                                                  name="color"
+                                                  title={color}
+                                                  placeholder={color}
+                                                  checked={selectedColor === color}
+                                                  onChange={() => setSelectedColor(color)}
+                                                />
+                                                <span
+                                                  className={`border flex rounded-full duration-300 p-1 ${selectedColor === color ? 'ring-2 ring-offset-2 ring-[#E13939]' : ''}`}
+                                                  style={{
+                                                    borderColor: '#888',
+                                                    boxShadow: selectedColor === color ? '0 0 0 2px #E13939' : 'none',
+                                                    transition: 'box-shadow 0.2s',
+                                                  }}
+                                                >
+                                                  <span
+                                                    className="w-4 h-4 rounded-full flex"
+                                                    style={{ backgroundColor: color, border: '1px solid #888' }}
+                                                  ></span>
+                                                </span>
+                                            </label>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +235,7 @@ export default function ProductDetails() {
                         <div className="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up" data-aos-delay="400">
                             <h4 className="font-medium leading-none">Tags :</h4>
                             <div className="flex flex-wrap gap-[10px] md:gap-[15px] mt-5 md:mt-6">
-                                {productTag.map((item,index)=>{
+                                {data?.tags?.map((item,index)=>{
                                     return(
                                         <Link className="btn btn-theme-outline btn-xs" to="#" data-text={item} key={index}><span>{item}</span></Link>
                                     )
@@ -219,7 +265,7 @@ export default function ProductDetails() {
 
         <div className="s-py-50">
             <div className="container-fluid">
-                <DetailTab/>
+                <DetailTab productId={parseInt(id)} />
             </div>
         </div>
 
@@ -239,9 +285,15 @@ export default function ProductDetails() {
             </div>
         </div>
 
-        <FooterOne/>
+        <FooterTwo/>
 
         <ScrollToTop/>
+
+        {showToast && (
+          <div style={{position:'fixed',bottom:40,left:'50%',transform:'translateX(-50%)',background:'#E13939',color:'#fff',padding:'12px 24px',borderRadius:'8px',zIndex:9999}}>
+            Please select both size and color before adding to cart.
+          </div>
+        )}
 
     </>
   )

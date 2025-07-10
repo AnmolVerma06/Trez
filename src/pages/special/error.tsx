@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-import error from '../../assets/img/thumb/error.png'
+
 
 import NavbarOne from "../../components/navbar/navbar-one";
-import FooterOne from "../../components/footer/footer-one";
+import FooterTwo from "../../components/footer/footer-two";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useEffect } from "react";
 import Aos from "aos";
@@ -47,7 +47,7 @@ export default function Error() {
             </div>
         </div>
 
-        <FooterOne/>
+        <FooterTwo/>
 
         <ScrollToTop/>
     </>

@@ -5,6 +5,7 @@ import NavbarOne from "../../components/navbar/navbar-one";
 import FooterTwo from "../../components/footer/footer-two";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useCartWishlist } from "../../context/CartWishlistContext";
+import { colorHexToName } from '../../data/data';
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import Aos from "aos";
@@ -17,18 +18,17 @@ export default function Cart() {
         Aos.init()
     },[])
 
-    const handleQuantityChange = (id: number, newQuantity: number) => {
-        updateQuantity(id, newQuantity);
+    const handleQuantityChange = (id: number, newQuantity: number, size?: string, color?: string) => {
+        updateQuantity(id, newQuantity, size, color);
     };
 
-    const handleRemoveItem = (id: number) => {
-        removeFromCart(id);
+    const handleRemoveItem = (id: number, size?: string, color?: string) => {
+        removeFromCart(id, size, color);
     };
 
     const cartTotal = getCartTotal();
-    const shipping = cartTotal > 100 ? 0 : 10; // Free shipping over $100
-    const vat = cartTotal * 0.05; // 5% VAT
-    const finalTotal = cartTotal + shipping + vat;
+    const shipping = cartTotal > 100 ? 0 : 10; // Free shipping over ₹100
+    const finalTotal = cartTotal + shipping;
 
     return (
     <>
@@ -71,7 +71,7 @@ export default function Cart() {
                                     </thead>
                                     <tbody className="table-body">
                                         {cart.map((item) => (
-                                            <tr key={item.id} className="">
+                                            <tr key={`${item.id}-${item.size}-${item.color}`} className="">
                                                 <td className="md:w-[42%]">
                                                     <div className="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product my-4">
                                                         <div className="w-12 h-12 sm:w-16 sm:h-16 flex-none">
@@ -80,16 +80,21 @@ export default function Cart() {
                                                         <div className="flex-1">
                                                             <h6 className="leading-none font-medium">{item.category || 'Product'}</h6>
                                                             <h5 className="font-semibold leading-none mt-2"><Link to="/error">{item.name}</Link></h5>
+                                                            {/* Show size and color */}
+                                                            <div className="text-sm mt-1">
+                                                                Size: <span className="font-medium">{item.size || '-'}</span> <br/>
+                                                                Color: <span className="font-medium">{colorHexToName[String(item.color)] || item.color || '-'}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">${item.price.toFixed(2)}</h6>
+                                                    <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">₹{item.price.toFixed(2)}</h6>
                                                 </td>
                                                 <td>
                                                     <div className="flex items-center gap-2">
                                                         <button 
-                                                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                                            onClick={() => handleQuantityChange(item.id, item.quantity - 1, item.size, item.color)}
                                                             className="w-8 h-8 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded"
                                                             aria-label="Decrease quantity"
                                                         >
@@ -97,7 +102,7 @@ export default function Cart() {
                                                         </button>
                                                         <span className="w-12 text-center">{item.quantity}</span>
                                                         <button 
-                                                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                                            onClick={() => handleQuantityChange(item.id, item.quantity + 1, item.size, item.color)}
                                                             className="w-8 h-8 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded"
                                                             aria-label="Increase quantity"
                                                         >
@@ -106,11 +111,11 @@ export default function Cart() {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">${(item.price * item.quantity).toFixed(2)}</h6>
+                                                    <h6 className="text-base md:text-lg leading-none text-title dark:text-white font-semibold">₹{(item.price * item.quantity).toFixed(2)}</h6>
                                                 </td>
                                                 <td>
                                                     <button 
-                                                        onClick={() => handleRemoveItem(item.id)}
+                                                        onClick={() => handleRemoveItem(item.id, item.size, item.color)}
                                                         className="w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center ml-auto duration-300 text-title dark:text-white hover:bg-red-500 hover:text-white"
                                                     >
                                                         <svg className="fill-current " width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -141,25 +146,21 @@ export default function Cart() {
                                 <div className="text-right flex justify-end flex-col w-full ml-auto mr-0">
                                     <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium">
                                         <span>Sub Total:</span>
-                                        <span>${cartTotal.toFixed(2)}</span>
+                                        <span>₹{cartTotal.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                                         <span>Shipping:</span>
-                                        <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
-                                    </div>
-                                    <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
-                                        <span>VAT:</span>
-                                        <span>${vat.toFixed(2)}</span>
+                                        <span>{shipping === 0 ? 'Free' : `₹${shipping.toFixed(2)}`}</span>
                                     </div>
                                 </div>
                                 <div className="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk">
                                     <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-bold">
                                         <span>Total:</span>
-                                        <span>${finalTotal.toFixed(2)}</span>
+                                        <span>₹{finalTotal.toFixed(2)}</span>
                                     </div>
                                 </div>
                                 <div className="mt-6">
-                                    <Link to="/error" className="btn btn-solid w-full" data-text="Proceed to Checkout">
+                                    <Link to="/checkout" className="btn btn-solid w-full" data-text="Proceed to Checkout">
                                         <span>Proceed to Checkout</span>
                                     </Link>
                                 </div>

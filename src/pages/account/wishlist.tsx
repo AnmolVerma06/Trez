@@ -109,7 +109,7 @@ export default function Wishlist() {
                                                 </div>
                                             </div>
                                             <div className="lg:pt-7 pt-5 flex gap-3 md:gap-4 flex-col">
-                                                <h4 className="font-medium leading-none dark:text-white text-lg">${item.price.toFixed(2)}</h4>
+                                                <h4 className="font-medium leading-none dark:text-white text-lg">₹{item.price.toFixed(2)}</h4>
                                                 <div>
                                                     <h5 className="font-normal dark:text-white text-xl leading-[1.5]">
                                                         <Link to="/error" className="text-underline">{item.name}</Link>

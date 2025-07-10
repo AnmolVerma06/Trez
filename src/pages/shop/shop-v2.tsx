@@ -24,7 +24,7 @@ export default function ShopV2() {
     const [selectedItemType, setSelectedItemType] = useState<string>("");
     const [selectedBrand, setSelectedBrand] = useState<string>("");
     const [minValue, setMinValue] = useState(0);
-    const [maxValue, setMaxValue] = useState(1000);
+    const [maxValue, setMaxValue] = useState(3000);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 6;
     const [searchQuery, setSearchQuery] = useState('');
@@ -109,7 +109,7 @@ export default function ShopV2() {
         setSelectedItemType("");
         setSelectedBrand("");
         setMinValue(0);
-        setMaxValue(1000);
+        setMaxValue(3000);
         setCurrentPage(1);
     };
 
@@ -188,7 +188,7 @@ export default function ShopV2() {
                                 <div id="slider-container">
                                     <MultiRangeSlider
                                         min={0}
-                                        max={1000}
+                                        max={3000}
                                         minValue={minValue}
                                         maxValue={maxValue}
                                         ruler={false}
@@ -202,7 +202,7 @@ export default function ShopV2() {
                                 <div className="price-filter-content">
                                     <div className="flex items-center gap-1">
                                         <span className="text-[15px] leading-none">Price:</span>
-                                        <input className="text-[15px] text-paragraph placeholder:text-paragraph dark:text-white-light dark:placeholder:text-white-light leading-none bg-transparent focus:border-none outline-none" type="text" id="amount" readOnly placeholder={`$${minValue} - $${maxValue}`}/>
+                                        <input className="text-[15px] text-paragraph placeholder:text-paragraph dark:text-white-light dark:placeholder:text-white-light leading-none bg-transparent focus:border-none outline-none" type="text" id="amount" readOnly placeholder={`₹${minValue} - ₹${maxValue}`}/>
                                     </div>
                                 </div>
                             </div>

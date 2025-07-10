@@ -6,7 +6,7 @@ import { LuSearch,LuX} from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
 import {RiShoppingBag4Line} from 'react-icons/ri'
 import Switcher from '../switcher';
-import { productList } from '../../data/data';
+import { productList, colorHexToName } from '../../data/data';
 
 interface NavMenuProps {
     toggle: boolean;
@@ -38,16 +38,16 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
     // Get unique categories from productList
     const categories = Array.from(new Set(productList.map(p => p.category)));
 
-    const handleRemoveFromCart = (id: number) => {
-        removeFromCart(id);
+    const handleRemoveFromCart = (id: number, size?: string, color?: string) => {
+        removeFromCart(id, size, color);
     };
 
     const handleRemoveFromWishlist = (id: number) => {
         removeFromWishlist(id);
     };
 
-    const handleQuantityChange = (id: number, newQuantity: number) => {
-        updateQuantity(id, newQuantity);
+    const handleQuantityChange = (id: number, newQuantity: number, size?: string, color?: string) => {
+        updateQuantity(id, newQuantity, size, color);
     };
 
     const cartTotal = getCartTotal();
@@ -123,7 +123,7 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                                             <div className="flex items-center gap-2">
                                                 <span className="text-[14px] md:text-[15px] leading-none block">{item.name}</span>
                                                 <span className="w-[6px] h-[6px] rounded-full bg-primary"></span>
-                                                <span className="text-[14px] md:text-[15px] leading-none block">${item.price.toFixed(2)}</span>
+                                                <span className="text-[14px] md:text-[15px] leading-none block">₹{item.price.toFixed(2)}</span>
                                             </div>
                                             <h6 className="text-base md:text-lg font-semibold leading-none mt-3">{item.category || 'Product'}</h6>
                                         </div>
@@ -169,7 +169,7 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                         <div className="hdr-cart-item">
                             {cart.slice(0, 10).map((item,index)=>{
                                 return(
-                                    <div className="flex gap-[15px] relative pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk group" key={index}>
+                                    <div className="flex gap-[15px] relative pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk group" key={`${item.id}-${item.size}-${item.color}`}>
                                         <Link to={`/product-details/${item.id}`} className="block">
                                             <img className="w-10 h-10 md:w-12 md:h-12 object-contain rounded" src={item.image} alt="cart"/>
                                         </Link>
@@ -177,21 +177,25 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                                             <div className="flex items-center gap-2">
                                                 <span className="text-[14px] md:text-[15px] leading-none block">{item.name}</span>
                                                 <span className="w-[6px] h-[6px] rounded-full bg-primary"></span>
-                                                <span className="text-[14px] md:text-[15px] leading-none block">${item.price.toFixed(2)}</span>
+                                                <span className="text-[14px] md:text-[15px] leading-none block">₹{item.price.toFixed(2)}</span>
                                             </div>
                                             <h6 className="text-base md:text-lg font-semibold !leading-none mt-[10px] mb-4">
                                                 <Link to={`/product-details/${item.id}`}>{item.category || 'Product'}</Link>
                                             </h6>
-                                            <div className="flex items-center gap-2">
+                                            {/* Show size and color */}
+                                            <div className="text-xs mt-1">
+                                                Size: <span className="font-medium">{item.size || '-'}</span> | Color: <span className="font-medium">{colorHexToName[String(item.color)] || item.color || '-'}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 mt-2">
                                                 <button 
-                                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1, item.size, item.color)}
                                                     className="w-6 h-6 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded text-sm"
                                                 >
                                                     -
                                                 </button>
                                                 <span className="w-8 text-center text-sm">{item.quantity}</span>
                                                 <button 
-                                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1, item.size, item.color)}
                                                     className="w-6 h-6 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded text-sm"
                                                 >
                                                     +
@@ -199,7 +203,7 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                                             </div>
                                         </div>
                                         <button 
-                                            onClick={() => handleRemoveFromCart(item.id)}
+                                            onClick={() => handleRemoveFromCart(item.id, item.size, item.color)}
                                             className="wishList_item_close absolute top-0 right-0 w-6 h-6 flex items-center justify-center bg-title dark:bg-white bg-opacity-10 dark:bg-opacity-10 group hover:bg-primary dark:hover:bg-primary opacity-0 group-hover:opacity-100 text-title dark:text-white duration-300 hover:text-white"
                                             title="Remove from Cart"
                                         >
@@ -210,7 +214,7 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                             })}
                         </div>
                         <div className="pt-5 md:pt-[30px] mt-5 md:mt-[30px] border-t border-bdr-clr dark:border-bdr-clr-drk">
-                            <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : ${cartTotal.toFixed(2)}</h4>
+                            <h4 className="mb-5 md:mb-[30px] font-medium !leading-none text-lg md:text-xl text-right">Subtotal : ₹{cartTotal.toFixed(2)}</h4>
                             <div className="grid grid-cols-2 gap-4">
                                 <Link to="/cart" className="btn btn-outline btn-sm" data-text="View Cart">
                                     <span>View Cart</span>

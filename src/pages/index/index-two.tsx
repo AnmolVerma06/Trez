@@ -69,7 +69,7 @@ export default function IndexTwo() {
                         <img src={hero} alt="thumb"/>
                         <div className="absolute flex items-center justify-center bg-primary bg-opacity-20 rounded-full p-3 top-5 left-[10%] lg:left-[25%]">
                             <div className="w-12 md:w-20 h-12 md:h-20 bg-white dark:bg-title rounded-full flex items-center justify-center">
-                                <h4 className="font-normal leading-none"><sup>$</sup>55</h4>
+                                <h4 className="font-normal leading-none"><sup>₹</sup>200</h4>
                             </div>
                         </div>
                     </div>
