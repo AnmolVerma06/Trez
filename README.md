@@ -16,7 +16,7 @@
 ## 📚 Overview
 
 **Trez** is a modern, feature-rich e-commerce website providing an exceptional online shopping experience. Built for seamless navigation, it includes:
-- Customizable product views (List/Grid)
+- Customizable product views
 - Advanced product listings
 - Fast and intuitive search
 - Cart and checkout management
