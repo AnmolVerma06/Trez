@@ -131,14 +131,6 @@ Choose a Bank -> Click Pay
 
 ---
 
-## 🙌 Acknowledgements
-
-Special thanks to:
-- Modern e-commerce designs for inspiration.
-- Open-source libraries that made development faster.
-
----
-
 ## 📬 Contact
 
 Developed with ❤️ by **Anmol Verma**.  
