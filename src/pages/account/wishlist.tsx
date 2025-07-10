@@ -14,10 +14,8 @@ import { GoStarFill } from "react-icons/go";
 
 import Aos from "aos";
 import FooterTwo from "../../components/footer/footer-two";
-import LayoutOne from '../../components/product/layout-one';
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import { productList } from '../../data/data';
-import { useRef } from 'react';
 
 interface WishlistItem {
     id: number;
