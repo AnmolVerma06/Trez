@@ -16,10 +16,11 @@
 ## 📚 Overview
 
 **Trez** is a modern, feature-rich e-commerce website providing an exceptional online shopping experience. Built for seamless navigation, it includes:
-- Customizable product views 
+- Customizable product views (List/Grid)
 - Advanced product listings
 - Fast and intuitive search
 - Cart and checkout management
+- Payment gateway integration
 - Fully responsive design
 
 ---
@@ -40,6 +41,9 @@ Add, remove, or update cart items effortlessly.
 
 ✅ **Smooth Checkout Flow**  
 Step-by-step checkout process with form validations.
+
+✅ **Secure Payment Gateway**  
+Integrated with Razorpay for safe transactions.
 
 ✅ **Responsive Design**  
 Looks great on desktops, tablets, and mobile devices.
@@ -97,9 +101,33 @@ npm start
 
 ---
 
-## 📜 License
+## 💳 Payment Integration
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is integrated with **Razorpay** for secure payment processing. Customize with your own keys or switch providers as needed.
+
+To test the payment flow, click Success after selecting the payment method
+
+### Card details:
+```
+Mastercard Card Number: 5267 3181 8797 5449
+Visa Car Number : 4386 2894 0766 0153
+CVV: 123  (Random CVV)
+Expiry Date: 11/26  (Any Future date)
+
+```
+
+### UPI Details  - 
+
+```
+success@razorpay 
+```
+
+### Net Banking - 
+
+```
+Choose a Bank -> Click Pay
+```
+
 
 ---
 
