@@ -14,6 +14,10 @@ import { GoStarFill } from "react-icons/go";
 
 import Aos from "aos";
 import FooterTwo from "../../components/footer/footer-two";
+import LayoutOne from '../../components/product/layout-one';
+import React, { useState } from 'react';
+import { productList } from '../../data/data';
+import { useRef } from 'react';
 
 interface WishlistItem {
     id: number;
@@ -23,26 +27,23 @@ interface WishlistItem {
     category?: string;
     type?: string;
     brand?: string;
+    tag?: string; // Added tag property
 }
 
 export default function Wishlist() {
     const { state, removeFromWishlist, addToCart, isInCart } = useCartWishlist();
     const { wishlist } = state;
 
+    const [showAddToCartModal, setShowAddToCartModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<WishlistItem | null>(null);
+
     useEffect(() => {
         Aos.init()
     }, [])
 
     const handleAddToCart = (item: WishlistItem) => {
-        addToCart({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            image: item.image,
-            category: item.category,
-            type: item.type,
-            brand: item.brand
-        });
+        setSelectedProduct(item);
+        setShowAddToCartModal(true);
     };
 
     const handleRemoveFromWishlist = (id: number) => {
@@ -136,6 +137,86 @@ export default function Wishlist() {
             <FooterTwo />
 
             <ScrollToTop />
+            {showAddToCartModal && selectedProduct && (
+                <AddToCartModal
+                    product={productList.find((p) => p.id === selectedProduct.id)}
+                    onClose={() => setShowAddToCartModal(false)}
+                    onConfirm={(size: string, color: string) => {
+                        addToCart({
+                            id: selectedProduct.id,
+                            name: selectedProduct.name,
+                            price: selectedProduct.price,
+                            image: selectedProduct.image,
+                            category: selectedProduct.category,
+                            type: selectedProduct.type,
+                            brand: selectedProduct.brand,
+                            size,
+                            color
+                        });
+                        setShowAddToCartModal(false);
+                    }}
+                />
+            )}
         </>
     )
+}
+
+function AddToCartModal({ product, onClose, onConfirm }: { product: any, onClose: () => void, onConfirm: (size: string, color: string) => void }) {
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [showToast, setShowToast] = useState(false);
+  const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleConfirm = () => {
+    if (!selectedSize || !selectedColor) {
+      setShowToast(true);
+      if (toastTimeout.current) clearTimeout(toastTimeout.current);
+      toastTimeout.current = setTimeout(() => setShowToast(false), 2000);
+      return;
+    }
+    onConfirm(selectedSize, selectedColor);
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 dark:bg-opacity-70" style={{backdropFilter: 'blur(2px)'}}>
+      <div className="bg-white dark:bg-title dark:text-white rounded-xl p-6 w-full max-w-md relative border border-gray-200 dark:border-gray-700">
+        <button className="absolute top-2 right-4 text-2xl text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white" onClick={onClose}>&times;</button>
+        <h2 className="text-xl font-bold mb-4 dark:text-white">Select Size & Color</h2>
+        <div className="mb-4">
+          <div className="font-semibold text-sm mb-1 dark:text-gray-200">Size:</div>
+          <div className="flex gap-2">
+            {product?.sizes?.map((size: string) => (
+              <label key={size} className="cursor-pointer">
+                <input type="radio" name="modal-size" className="appearance-none hidden" checked={selectedSize === size} onChange={() => setSelectedSize(size)} title={`Size ${size}`} placeholder={size} />
+                <span className={`px-3 py-1 border rounded ${selectedSize === size ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-gray-100 text-black dark:bg-gray-800 dark:text-white'} border-gray-300 dark:border-gray-600`}>{size}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="mb-4">
+          <div className="font-semibold text-sm mb-1 dark:text-gray-200">Color:</div>
+          <div className="flex gap-2">
+            {product?.colors?.map((color: string, idx: number) => (
+              <label key={color} htmlFor={`modal-color-${idx}`} style={{cursor: 'pointer'}}>
+                <input id={`modal-color-${idx}`} type="radio" name="modal-color" className="appearance-none hidden" checked={selectedColor === color} onChange={() => setSelectedColor(color)} title={color} placeholder={color} />
+                <span className={`border flex rounded-full duration-300 p-1 ${selectedColor === color ? 'ring-2 ring-offset-2 ring-[#E13939]' : ''} border-gray-300 dark:border-gray-600`} style={{ boxShadow: selectedColor === color ? '0 0 0 2px #E13939' : 'none', transition: 'box-shadow 0.2s' }}>
+                  <span className="w-6 h-6 rounded-full flex" style={{ backgroundColor: color, border: '1px solid #888' }}></span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-2 mt-4">
+          <button className="bg-black dark:bg-white dark:text-black text-white px-6 py-2 rounded font-semibold" onClick={handleConfirm}>Add to Cart</button>
+          <button className="bg-gray-200 dark:bg-gray-700 text-black dark:text-white px-6 py-2 rounded font-semibold" onClick={onClose}>Cancel</button>
+        </div>
+        {showToast && (
+          <div style={{position:'fixed',bottom:40,left:'50%',transform:'translateX(-50%)',background:'#E13939',color:'#fff',padding:'12px 24px',borderRadius:'8px',zIndex:9999}}>
+            Please select both size and color before adding to cart.
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
