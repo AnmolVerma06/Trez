@@ -1,10 +1,15 @@
-import { blogData } from '../../data/data'
 import { Link } from 'react-router-dom'
+
+const blogData = [
+  { id: 1, title: 'Demo Blog 1', image: '', date: '', tag: '', desc: '' },
+  { id: 2, title: 'Demo Blog 2', image: '', date: '', tag: '', desc: '' },
+  { id: 3, title: 'Demo Blog 3', image: '', date: '', tag: '', desc: '' },
+];
 
 export default function BlogOne() {
   return (
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 md:gap-[30px]">
-            {blogData.slice(0,5).map((item,index)=>{
+            {blogData.slice(0,5).map((item: any, index: any)=>{
                 return(
                     <div className="group" key={index}>
                         <Link to="/blog-details-v1" className="overflow-hidden block">
