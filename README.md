@@ -54,7 +54,7 @@ Looks great on desktops, tablets, and mobile devices.
 
 🔹 **Frontend:** React.js, HTML5, Typescript, Javascript   
 🔹 **Styling:** TailwindCSS & Custom CSS  
-
+🔹 **Payment Gateway:** Razorpay 
 ---
 
 ## 📂 Project Structure
