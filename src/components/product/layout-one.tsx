@@ -219,8 +219,8 @@ export default function LayoutOne({ item }: { item: Item }) {
         </div>
       {/* Quick View Modal */}
       {showQuickView && product && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style={{backdropFilter: 'blur(2px)'}}>
-          <div ref={modalRef} className="relative bg-white dark:bg-title dark:text-white rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-40" style={{backdropFilter: 'blur(2px)'}}>
+          <div ref={modalRef} className="relative bg-white dark:bg-title dark:text-white rounded-2xl shadow-xl w-full max-w-5xl max-h-[75vh] overflow-y-auto flex flex-col md:flex-row">
             {/* Image Gallery */}
             <div className="md:w-1/2 w-full flex flex-col gap-4 p-6">
               <div className="relative">
@@ -244,7 +244,7 @@ export default function LayoutOne({ item }: { item: Item }) {
             </div>
             {/* Details */}
             <div className="md:w-1/2 w-full p-6 flex flex-col gap-2">
-              <button className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white" onClick={() => setShowQuickView(false)}>&times;</button>
+              <button className="absolute top-4 right-4 z-[99999] text-2xl text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white" onClick={() => setShowQuickView(false)}>&times;</button>
               <div className="text-xs font-semibold text-gray-400 mb-1 uppercase dark:text-gray-300">{product.category || 'Product'}</div>
               <h2 className="text-2xl font-bold mb-1 dark:text-white">{product.name}</h2>
               <div className="flex gap-4 items-center mt-[15px] mb-2">
