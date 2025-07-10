@@ -1,11 +1,10 @@
 import { GoStarFill } from 'react-icons/go'
 import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useCartWishlist } from '../../context/CartWishlistContext'
 import React, { useRef, useState, useEffect } from 'react';
-import { productList, productTag } from '../../data/data';
-import DetailTab from './detail-tab';
+import { productList } from '../../data/data';
 
 interface Item{
     id: number;
@@ -22,7 +21,7 @@ function AddToCartModal({ product, onClose, onConfirm }: { product: any, onClose
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
-  const toastTimeout = useRef<NodeJS.Timeout | null>(null);
+  const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleConfirm = () => {
     if (!selectedSize || !selectedColor) {
@@ -93,7 +92,7 @@ export default function LayoutOne({ item }: { item: Item }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
-  const toastTimeout = useRef<NodeJS.Timeout | null>(null);
+  const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [activeImage, setActiveImage] = useState<number>(1);
   const [timer, setTimer] = useState(7200); // 2 hours in seconds
 

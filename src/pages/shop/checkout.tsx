@@ -2,9 +2,6 @@ import { Link } from "react-router-dom";
 import NavbarOne from "../../components/navbar/navbar-one";
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-import cart1 from '../../assets/img/gallery/cart/cart-01.jpg'
-import cart2 from '../../assets/img/gallery/cart/cart-02.jpg'
-import cart3 from '../../assets/img/gallery/cart/cart-03.jpg'
 
 import React, { useEffect, useState } from "react";
 import FooterTwo from "../../components/footer/footer-two";
@@ -28,10 +25,9 @@ export default function Checkout() {
     const navigate = useNavigate();
     const { state: { cart }, getCartTotal } = useCartWishlist();
     const [shipping, setShipping] = useState<'free' | 'fast' | 'pickup'>('free');
-    const [coupon, setCoupon] = useState<number>(0); // Placeholder for coupon logic
     const shippingCost = shipping === 'free' ? 0 : shipping === 'fast' ? 10 : 15;
     const subtotal = getCartTotal();
-    const total = subtotal + shippingCost - coupon;
+    const total = subtotal + shippingCost;
 
     // Billing form state
     interface BillingForm {
@@ -233,7 +229,7 @@ export default function Checkout() {
                                     <div className="text-center text-lg text-title dark:text-white">Your cart is empty.</div>
                                 </React.Fragment>
                             ) : (
-                                cart.map((item, idx) => (
+                                cart.map((item) => (
                                     <div key={item.id} className="flex items-center gap-4 mb-4">
                                         <img src={item.image} alt={item.name} className="w-12 h-12 object-contain rounded" />
                                         <div className="flex-1">
@@ -255,7 +251,7 @@ export default function Checkout() {
                             </div>
                             <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                                 <span>Coupon Discount:</span>
-                                <span>-₹{coupon}</span>
+                                <span>-₹0</span>
                             </div>
                         </div>
                         <div className="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk">

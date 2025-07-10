@@ -32,7 +32,7 @@ export default function Error() {
             <div className="container">
                 <div className="flex items-center justify-center gap-5">
                     <h2 className="text-6xl sm:text-[100px] md:text-[150px] font-semibold leading-none" data-aos="fade-right">4</h2>
-                    <img className="w-36 sm:w-44 md:w-auto" src={error} alt="error" data-aos="zoom-in"/>
+                    <img className="w-36 sm:w-44 md:w-auto" src={Error} alt="error" data-aos="zoom-in"/>
                     <h2 className="text-6xl sm:text-[100px] md:text-[150px] font-semibold leading-none" data-aos="fade-left">4</h2>
                 </div>
                 <div className="max-w-[603px] mx-auto text-center mt-8 md:mt-12">

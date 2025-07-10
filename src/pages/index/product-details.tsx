@@ -3,11 +3,6 @@ import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom';
 
 import AOS from 'aos';
-import product1 from '../../assets/img/gallery/product-detls/product-01.jpg'
-import product2 from '../../assets/img/gallery/product-detls/product-02.jpg'
-import product3 from '../../assets/img/gallery/product-detls/product-03.jpg'
-import product4 from '../../assets/img/gallery/product-detls/product-04.jpg'
-
 import IncreDre from '../../components/incre-dre';
 import NavbarOne from '../../components/navbar/navbar-one';
 import FooterTwo from '../../components/footer/footer-two';
@@ -15,7 +10,7 @@ import DetailTab from '../../components/product/detail-tab';
 import LayoutOne from '../../components/product/layout-one';
 import ScrollToTop from '../../components/scroll-to-top';
 
-import { productList, productTag } from '../../data/data';
+import { productList } from '../../data/data';
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { useCartWishlist } from '../../context/CartWishlistContext';
 
@@ -25,7 +20,7 @@ export default function ProductDetails() {
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
     const [selectedColor, setSelectedColor] = useState<string | null>(null);
     const [showToast, setShowToast] = useState(false);
-    const toastTimeout = useRef<NodeJS.Timeout | null>(null);
+    const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [timer, setTimer] = useState(7200); // 2 hours in seconds
 
     useEffect(() => {

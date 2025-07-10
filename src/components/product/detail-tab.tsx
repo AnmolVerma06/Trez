@@ -3,20 +3,6 @@ import { Link } from 'react-router-dom'
 import { shippingAbout, productList } from '../../data/data'
 import { GoStarFill } from 'react-icons/go'
 
-// Add type for venderInfo and detailReview
-interface VendorInfoType {
-  [key: number]: {
-    name: string;
-    vendor: string;
-    shop: string;
-    mail: string;
-    call: string;
-  };
-}
-interface ReviewType {
-  [key: number]: Array<{ name: string; desc: string }>;
-}
-
 export default function DetailTab({ productId }: { productId: number }) {
     const [activeTab, setActiveTab] = useState<number>(1)
     const product = productList.find(p => p.id === productId);
