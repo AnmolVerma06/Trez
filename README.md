@@ -103,7 +103,7 @@ npm start
 
 ## 💳 Payment Integration
 
-This project is integrated with **Razorpay** for secure payment processing. Customize with your own keys or switch providers as needed.
+This project is integrated with **Razorpay** for secure payment processing.
 
 To test the payment flow, click Success after selecting the payment method
 
