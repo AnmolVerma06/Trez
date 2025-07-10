@@ -113,9 +113,9 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                 ) : (
                     <>
                         <div className="pr-4 md:pr-5 wishlist-item">
-                            {wishlist.slice(0, 10).map((item,index)=>{
+                            {wishlist.slice(0, 10).map((item)=>{
                                 return(
-                                    <div className="flex items-center gap-[15px] relative pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk" key={index}>
+                                    <div className="flex items-center gap-[15px] relative pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk" key={item.id}>
                                         <Link to={`/product-details/${item.id}`}>
                                             <img className="w-10 h-10 md:w-12 md:h-12 object-contain rounded" src={item.image} alt="wishlist"/>
                                         </Link>
@@ -167,7 +167,7 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                 ) : (
                     <>
                         <div className="hdr-cart-item">
-                            {cart.slice(0, 10).map((item,index)=>{
+                            {cart.slice(0, 10).map((item)=>{
                                 return(
                                     <div className="flex gap-[15px] relative pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk group" key={`${item.id}-${item.size}-${item.color}`}>
                                         <Link to={`/product-details/${item.id}`} className="block">
@@ -277,9 +277,9 @@ export default function NavMenu({toggle, setToggle}: NavMenuProps) {
                         <div className="mt-10 md:mt-12">
                             <h4 className="font-medium leading-none">Popular Tags</h4>
                             <div className="flex flex-wrap gap-[10px] md:gap-[15px] mt-5 md:mt-6">
-                                {categories.map((item,index)=>{
+                                {categories.map((item)=>{
                                     return(
-                                        <button type="button" className="btn btn-theme-outline btn-xs" key={index} onClick={() => handleTagClick(item)}>
+                                        <button type="button" className="btn btn-theme-outline btn-xs" key={item} onClick={() => handleTagClick(item)}>
                                             <span>{item}</span>
                                         </button>
                                     )

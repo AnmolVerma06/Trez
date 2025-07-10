@@ -114,7 +114,7 @@ export default function Checkout() {
             currency: 'INR',
             name: 'Ecommerce Checkout',
             description: 'Order Payment',
-            handler: function (response: any) {
+            handler: function () {
                 setIsPaying(false);
                 navigate('/payment-success');
             },

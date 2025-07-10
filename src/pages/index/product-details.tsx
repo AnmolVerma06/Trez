@@ -185,7 +185,7 @@ export default function ProductDetails() {
                                 <div className="flex gap-[10px] items-center">
                                     <h6 className="leading-none font-medium">Size :</h6>
                                     <div className="flex gap-[10px]">
-                                        {data?.sizes?.map((size, idx) => (
+                                        {data?.sizes?.map((size) => (
                                             <label className="product-size" htmlFor={`size-${size}`} key={size}>
                                                 <input id={`size-${size}`} className="appearance-none hidden" type="radio" name="size" title={`Size ${size}`} placeholder={size} checked={selectedSize === size} onChange={() => setSelectedSize(size)} />
                                                 <span className="w-6 h-6 flex items-center justify-center pt-[2px] text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white duration-300">{size}</span>
@@ -196,10 +196,10 @@ export default function ProductDetails() {
                                 <div className="flex gap-[10px] items-center">
                                     <h6 className="leading-none font-medium">Color :</h6>
                                     <div className="flex gap-[10px] items-center">
-                                        {data?.colors?.map((color, idx) => (
-                                            <label className="product-color" htmlFor={`color-${idx}`} key={color} style={{cursor: 'pointer'}}>
+                                        {data?.colors?.map((color) => (
+                                            <label className="product-color" htmlFor={`color-${color}`} key={color} style={{cursor: 'pointer'}}>
                                                 <input
-                                                  id={`color-${idx}`}
+                                                  id={`color-${color}`}
                                                   className="appearance-none hidden"
                                                   type="radio"
                                                   name="color"
